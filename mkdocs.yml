@@ -50,14 +50,13 @@ theme:
   feature:
     tabs: true
   palette:
-    primary: indigo
-    accent: indigo
+    primary: red-bud
+    accent: red-bud
   font:
     text: Roboto
     code: Roboto Mono
   favicon: assets/images/favicon.png
-  logo:
-    icon: "\uE80C"
+  logo: assets/images/logo.svg
 
 # Plugins
 plugins:
@@ -76,6 +75,8 @@ extra:
       link: https://twitter.com/squidfunk
     - type: linkedin
       link: https://www.linkedin.com/in/squidfunk/
+#  disqus: 'makerdiary'
+#  discourse: 'community.makerdiary.com'
 
 # Extensions
 markdown_extensions:

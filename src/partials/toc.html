@@ -67,6 +67,22 @@
           </a>
         </li>
       {% endif %}
+
+      <!-- Set from config but allow override -->
+      {% set discourse = config.extra.discourse %}
+      {% if page and page.meta and page.meta.discourse is string %}
+        {% set discourse = page.meta.discourse %}
+      {% endif %}
+
+      <!-- Discourse integration -->
+      {% if not page.is_homepage and discourse %}
+        <li class="md-nav__item">
+          <a href="#__comments" title="{{ lang.t('meta.comments') }}"
+              class="md-nav__link md-nav__link--active">
+            {{ lang.t("meta.comments") }}
+          </a>
+        </li>
+      {% endif %}
     </ul>
   {% endif %}
 </nav>
