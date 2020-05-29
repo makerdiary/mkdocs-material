@@ -1,5 +1,5 @@
 ////
-/// Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
+/// Copyright (c) 2016-2020 Martin Donath <martin.donath@squidfunk.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a
 /// copy of this software and associated documentation files (the "Software"),
@@ -26,26 +26,17 @@
 
 // Content container
 .md-content {
+  flex: 1;
+  max-width: 100%;
 
-  // [tablet landscape +]: Add space for table of contents
-  @include break-from-device(tablet landscape) {
-    margin-right: px2rem(242px);
-
-    // Adjust for RTL languages
-    [dir="rtl"] & {
-      margin-right: initial;
-      margin-left: px2rem(242px);
-    }
+  // [tablet landscape]: Decrease horizontal width
+  @include break-at-device(tablet landscape) {
+    max-width: calc(100% - #{px2rem(242px)});
   }
 
-  // [screen +]: Add space for table of contents
+  // [screen +]: Decrease horizontal width
   @include break-from-device(screen) {
-    margin-left: px2rem(242px);
-
-    // Adjust for RTL languages
-    [dir="rtl"] & {
-      margin-right: px2rem(242px);
-    }
+    max-width: calc(100% - #{px2rem(242px)} * 2);
   }
 
   // Define spacing
@@ -73,18 +64,34 @@
     }
   }
 
-  // Icons
-  &__icon {
-    @extend %md-icon__button;
-
-    position: relative;
-    margin: px2rem(8px) 0;
-    padding: 0;
+  // Button next to the title
+  &__button {
     float: right;
+    margin: px2rem(8px) 0;
+    margin-left: px2rem(8px);
+    padding: 0;
+
+    // Adjust for right-to-left languages
+    [dir="rtl"] & {
+      float: left;
+      margin-right: px2rem(8px);
+      margin-left: initial;
+
+      // Flip icon vertically
+      svg {
+        transform: scaleX(-1);
+      }
+    }
 
     // Override default link color for icons
     .md-typeset & {
-      color: $md-color-black--lighter;
+      color: var(--md-default-fg-color--lighter);
+    }
+
+    // Align text with icon
+    svg {
+      display: inline;
+      vertical-align: top;
     }
 
     // Hide for print

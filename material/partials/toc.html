@@ -2,17 +2,23 @@
   This file was automatically generated - do not edit
 -#}
 {% import "partials/language.html" as lang with context %}
-<nav class="md-nav md-nav--secondary">
-  {% set toc_ = page.toc %}
-  {% if toc_ | first is defined and "\x3ch1 id=" in page.content %}
-    {% set toc_ = (toc_ | first).children %}
+<nav class="md-nav md-nav--secondary" aria-label="{{ lang.t('toc.title') }}">
+  {% set toc = page.toc %}
+  {% if toc | first is defined and "\x3ch1 id=" in page.content %}
+    {% set toc = (toc | first).children %}
   {% endif %}
-  {% if toc_ | first is defined %}
-    <label class="md-nav__title" for="__toc">{{ lang.t("toc.title") }}</label>
+  {% if toc | first is defined %}
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        {% include ".icons/material/arrow-left.svg" %}
+      </span>
+      {{ lang.t("toc.title") }}
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
-      {% for toc_item in toc_ %}
+      {% for toc_item in toc %}
         {% include "partials/toc-item.html" %}
       {% endfor %}
+<<<<<<< HEAD
       {% if page.meta.source and page.meta.source | length > 0 %}
         <li class="md-nav__item">
           <a href="#__source" class="md-nav__link md-nav__link--active">
@@ -42,6 +48,8 @@
           </a>
         </li>
       {% endif %}
+=======
+>>>>>>> 952c27945f59488efaf730408bfc0d9ab5a62453
     </ul>
   {% endif %}
 </nav>

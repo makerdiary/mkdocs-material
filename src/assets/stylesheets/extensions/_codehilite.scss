@@ -1,5 +1,5 @@
 ////
-/// Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
+/// Copyright (c) 2016-2020 Martin Donath <martin.donath@squidfunk.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a
 /// copy of this software and associated documentation files (the "Software"),
@@ -194,15 +194,9 @@ $codehilite-whitespace: transparent;
   // Highlighted lines
   .hll {
     display: block;
-    margin: 0 px2rem(-12px);
-    padding: 0 px2rem(12px);
+    margin: 0 px2em(-16px, 13.6px);
+    padding: 0 px2em(16px, 13.6px);
     background-color: transparentize($clr-yellow-500, 0.5);
-
-    // [mobile -]: Stretch to whole width
-    @include break-to-device(mobile) {
-      margin: 0 px2rem(-16px);
-      padding: 0 px2rem(16px);
-    }
   }
 }
 
@@ -210,164 +204,105 @@ $codehilite-whitespace: transparent;
 // Rules: layout
 // ----------------------------------------------------------------------------
 
+// Block with line numbers
+.codehilitetable {
+  display: block;
+  overflow: hidden;
+
+  // Set table elements to block layout, because otherwise the whole flexbox
+  // hacking won't work correctly
+  tbody,
+  td {
+    display: block;
+    padding: 0;
+  }
+
+  // We need to use flexbox layout, because otherwise it's not possible to
+  // make the code container scroll while keeping the line numbers static
+  tr {
+    display: flex;
+  }
+
+  // The pre tags are nested inside a table, so we need to remove the
+  // margin because it collapses below all the overflows
+  pre {
+    margin: 0;
+  }
+
+  // Disable user selection, so code can be easily copied without
+  // accidentally also copying the line numbers
+  .linenos {
+    padding: px2rem(10.5px) px2em(16px, 13.6px);
+    padding-right: 0;
+    font-size: px2em(13.6px);
+    background-color: var(--md-code-bg-color);
+    user-select: none;
+  }
+
+  // Add spacing to line number container
+  .linenodiv {
+    padding-right: px2em(8px, 13.6px);
+    box-shadow: inset px2rem(-1px) 0 var(--md-default-fg-color--lightest);
+
+    // Reset spacings
+    pre {
+      color: var(--md-default-fg-color--lighter);
+      text-align: right;
+    }
+  }
+
+  // The table cell containing the code container wrapper and code should
+  // stretch horizontally to the remaining space
+  .code {
+    flex: 1;
+    overflow: hidden;
+  }
+}
+
 // Scoped in typesetted content to match specificity of regular content
 .md-typeset {
 
-  // If code blocks are wrapped with codehilite, the styles must be adjusted
-  // so the marker stretches to the whole width and the padding is respected
-  .codehilite {
-    position: relative;
-    margin: 1em 0;
-    padding: 0;
-    border-radius: px2rem(2px);
-    background-color: $md-code-background;
-    color: $md-code-color;
-    line-height: 1.4;
-    -webkit-overflow-scrolling: touch;
-
-    // Actual container with code, overflowing
-    pre,
-    code {
-      display: block;
-      margin: 0;
-      padding: px2rem(10.5px) px2rem(12px);
-      background-color: transparent;
-      overflow: auto;
-      vertical-align: top;
-
-      // Override native scrollbar styles
-      &::-webkit-scrollbar {
-        width: px2rem(4px);
-        height: px2rem(4px);
-      }
-
-      // Style scrollbar thumb
-      &::-webkit-scrollbar-thumb {
-        background-color: $md-color-black--lighter;
-
-        // Hovered scrollbar thumb
-        &:hover {
-          background-color: $md-color-accent;
-        }
-      }
-    }
-  }
-
-  // If not using Pygments, code will be under pre > code
-  pre.codehilite {
-    overflow: visible;
-
-    // Actual container with code, overflowing
-    code {
-      display: block;
-      padding: px2rem(10.5px) px2rem(12px);
-      overflow: auto;
-    }
-  }
-
   // Block with line numbers
   .codehilitetable {
-    display: block;
     margin: 1em 0;
-    border-radius: 0.2em;
-    font-size: ms(0);
-    overflow: hidden;
+    direction: ltr;
+    border-radius: px2rem(2px);
 
-    // Set table elements to block layout, because otherwise the whole flexbox
-    // hacking won't work correctly
-    tbody,
-    td {
-      display: block;
-      padding: 0;
-    }
-
-    // We need to use flexbox layout, because otherwise it's not possible to
-    // make the code container scroll while keeping the line numbers static
-    tr {
-      display: flex;
-    }
-
-    // The pre tags are nested inside a table, so we need to remove the
-    // margin because it collapses below all the overflows
-    .codehilite,
-    .linenodiv {
-      margin: 0;
+    // Remove rounded borders
+    code {
       border-radius: 0;
-    }
-
-    // Add spacing to line number container
-    .linenodiv {
-      padding: px2rem(10.5px) px2rem(12px);
-    }
-
-    // Disable user selection, so code can be easily copied without
-    // accidentally also copying the line numbers
-    .linenos {
-      background-color: $md-color-black--lightest;
-      color: $md-color-black--lighter;
-      user-select: none;
-
-      // Reset spacings
-      pre {
-        margin: 0;
-        padding: 0;
-        background-color: transparent;
-        color: inherit;
-        text-align: right;
-      }
-    }
-
-    // The table cell containing the code container wrapper and code should
-    // stretch horizontally to the remaining space
-    .code {
-      flex: 1;
-      overflow: hidden;
     }
   }
 
-  // Full-width container
-  > .codehilite {
+  // [mobile -]: Stretch to whole width
+  @include break-to-device(mobile) {
 
-    // [mobile -]: Stretch to whole width
-    @include break-to-device(mobile) {
+    // Full-width container
+    > .codehilite {
       margin: 1em px2rem(-16px);
-      border-radius: 0;
 
-      // Actual container with code, overflowing
-      pre,
+      // Stretch highlighted lines
+      .hll {
+        margin: 0 px2rem(-16px);
+        padding: 0 px2rem(16px);
+      }
+
+      // Remove rounded borders
       code {
-        padding: px2rem(10.5px) px2rem(16px);
+        border-radius: 0;
       }
     }
-  }
 
-  // Full-width container on top-level
-  > .codehilitetable {
-    box-shadow: none;
-
-    // [mobile -]: Stretch to whole width
-    @include break-to-device(mobile) {
+    // Full-width container on top-level
+    > .codehilitetable {
       margin: 1em px2rem(-16px);
       border-radius: 0;
 
-      // Increase spacing
-      .codehilite > pre,
-      .codehilite > code,
-      .linenodiv {
-        padding: px2rem(10px) px2rem(16px);
+      // Stretch highlighted lines
+      .hll {
+        margin: 0 px2rem(-16px);
+        padding: 0 px2rem(16px);
       }
     }
-  }
-
-  // When pymdownx.superfences is enabled but codehilite is disabled,
-  // pymdownx.highlight will be used. When this happens, the outer
-  // container and tables get this class names by default.
-  .highlight {
-    @extend .codehilite;
-  }
-
-  // Same as above, but for code blocks with line numbers enabled
-  .highlighttable {
-    @extend .codehilitetable;
   }
 }
