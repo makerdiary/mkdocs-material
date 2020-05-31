@@ -56,8 +56,8 @@
 		}
 	}
 
-    // Color tile for presentation in theme documentation
-	.md-issue-button {
+    // Tile
+	.md-tile {
 		width: px2rem(130px);
 		margin-bottom: px2rem(4px);
 		padding: px2rem(24px) px2rem(8px) px2rem(4px);
@@ -70,7 +70,7 @@
 		text-align: left;
 		cursor: pointer;
 
-		// Primary button
+		// Primary tile
 		&--primary {
 			color: var(--md-primary-bg-color);
 			background-color: var(--md-primary-fg-color);
